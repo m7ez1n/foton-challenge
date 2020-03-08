@@ -1,11 +1,11 @@
 import mongoose, { Document, Model } from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const Schema = new mongoose.Schema(
   {
     name: {
       type: String,
       description: 'Username',
-      index: true,
       required: true,
     },
     email: {
@@ -18,6 +18,10 @@ const Schema = new mongoose.Schema(
       type: String,
       description: 'User password',
       required: true,
+    },
+    acess: {
+      type: Boolean,
+      default: true,
     },
   },
   {
@@ -35,9 +39,29 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  encryptPassword: (password: string | undefined) => string;
+  acess: boolean;
+  acessAuthorized: (plainTextPassword: string) => boolean;
   createdAt: Date;
   updatedAt: Date;
 }
+
+Schema.pre<IUser>('save', function encryptPasswordHook(next) {
+  if (this.isModified('password')) {
+    this.password = this.encryptPassword(this.password);
+  }
+
+  return next();
+});
+
+Schema.methods = {
+  acessAuthorized(plainTextPassword: string) {
+    return bcrypt.compareSync(plainTextPassword, this.password);
+  },
+  encryptPassword(password: string) {
+    return bcrypt.hashSync(password, 8);
+  },
+};
 
 const UserModel: Model<IUser> = mongoose.model<IUser, Model<IUser>>('User', Schema);
 

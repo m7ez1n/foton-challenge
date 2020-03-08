@@ -19,19 +19,19 @@ const UserTypeConfig: ConfigType = {
     _id: {
       type: GraphQLNonNull(GraphQLString),
       description: 'MongoDB_id',
-      resolve: event => event._id.toString(),
+      resolve: user => user._id.toString(),
     },
     name: {
       type: GraphQLString,
-      resolve: event => event.name,
+      resolve: user => user.name,
     },
     email: {
       type: GraphQLString,
-      resolve: event => event.email,
+      resolve: user => user.email,
     },
     password: {
       type: GraphQLString,
-      resolve: event => event.password,
+      resolve: user => user.password,
     },
     createdAt: {
       type: GraphQLString,
@@ -49,7 +49,6 @@ const UserType = new GraphQLObjectType(UserTypeConfig);
 
 export const UserConnection = connectionDefinitions({
   name: 'User',
-  //TODO verificar error do nodeType
   nodeType: GraphQLNonNull(UserType),
 });
 

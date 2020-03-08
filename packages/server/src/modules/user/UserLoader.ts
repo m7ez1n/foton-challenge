@@ -1,32 +1,32 @@
-import { escapeRegex } from '../../common/utils';
-
 import { DataLoaderKey, GraphQLContext } from '../../types';
 
 import UserModel, { IUser } from './UserModel';
 
-import { connectionFromMongoCursor, mongooseLoader } from '@entria/graphql-mongoose-loader';
+import { mongooseLoader } from '@entria/graphql-mongoose-loader';
 
 import DataLoader from 'dataloader';
-import { ConnectionArguments } from 'graphql-relay';
 import { Types } from 'mongoose';
 
 export default class User {
   id: string;
   _id: string;
   name: string;
-  email: string;
-  password: string;
+  email: string | null | undefined;
+  password: string | null | undefined;
   createdAt: Date;
   updatedAt: Date;
 
-  constructor(data: IUser) {
+  constructor(data: IUser, { user }: GraphQLContext) {
     this.id = data.id || data._id;
     this._id = data._id;
-    this.name = this.name;
-    this.email = this.email;
-    this.password = this.password;
+    this.name = data.name;
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
+
+    if (user && user._id.equals(data._id)) {
+      this.email = data.email;
+      this.password = data.password;
+    }
   }
 }
 
@@ -46,7 +46,7 @@ export const load = async (context: GraphQLContext, id: DataLoaderKey) => {
       return null;
     }
 
-    return viewerCanSee() ? new User(data) : null;
+    return viewerCanSee() ? new User(data, context) : null;
   } catch (err) {
     return null;
   }
@@ -60,27 +60,3 @@ export const primeCache = ({ dataloaders }: GraphQLContext, id: Types.ObjectId, 
 
 export const clearAndPrimeCache = (context: GraphQLContext, id: Types.ObjectId, data: IUser) =>
   clearCache(context, id) && primeCache(context, id, data);
-
-interface LoadUserArgs extends ConnectionArguments {
-  search?: string;
-}
-
-export const loadEvents = async (context: GraphQLContext, args: LoadUserArgs) => {
-  const conditions: any = {};
-
-  if (args.search) {
-    const searchRegex = new RegExp(`${escapeRegex(args.search)}`, 'ig');
-    conditions.$or = [
-      { name: { $regex: searchRegex } },
-      { email: { $regex: searchRegex } },
-      { password: { $regex: searchRegex } },
-    ];
-  }
-
-  return connectionFromMongoCursor({
-    cursor: UserModel.find(conditions).sort({ date: 1 }),
-    context,
-    args,
-    loader: load,
-  });
-};
