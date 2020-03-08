@@ -14,4 +14,5 @@ export interface GraphQLContext {
   dataloaders: GraphQLDataloaders;
   appplatform: string;
   koaContext: Context;
+  user?: IUser;
 }

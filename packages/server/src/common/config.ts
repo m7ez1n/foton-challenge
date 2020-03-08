@@ -18,6 +18,9 @@ if (!process.env.NOW_REGION) {
 // Server
 export const GRAPHQL_PORT = envVar.get('GRAPHQL_PORT').asPortNumber();
 
+// APP_KEY
+export const APP_KEY = process.env.APP_KEY;
+
 // Export some settings that should always be defined
 export const MONGO_URL = envVar
   .get('MONGO_URL')
