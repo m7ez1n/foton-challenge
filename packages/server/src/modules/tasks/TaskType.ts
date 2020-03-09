@@ -45,6 +45,7 @@ const TaskType = new GraphQLObjectType(TaskTypeConfig);
 
 export const TaskConnection = connectionDefinitions({
   name: 'Task',
+  //@ts-ignore
   nodeType: GraphQLNonNull(TaskType),
 });
 

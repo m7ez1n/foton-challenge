@@ -49,6 +49,8 @@ const UserType = new GraphQLObjectType(UserTypeConfig);
 
 export const UserConnection = connectionDefinitions({
   name: 'User',
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
   nodeType: GraphQLNonNull(UserType),
 });
 
