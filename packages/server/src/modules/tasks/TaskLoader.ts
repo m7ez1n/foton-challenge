@@ -1,13 +1,12 @@
-import { DataLoaderKey, GraphQLContext } from '../../types';
-
-import { escapeRegex } from '../../common/utils';
-
-import TaskModel, { ITask } from './TaskModel';
-
 import { connectionFromMongoCursor, mongooseLoader } from '@entria/graphql-mongoose-loader';
 import DataLoader from 'dataloader';
 import { ConnectionArguments } from 'graphql-relay';
 import { Types } from 'mongoose';
+
+import { escapeRegex } from '../../common/utils';
+import { DataLoaderKey, GraphQLContext } from '../../types';
+
+import TaskModel, { ITask } from './TaskModel';
 
 export default class Task {
   id: string;
@@ -62,7 +61,7 @@ interface LoadTasksArgs extends ConnectionArguments {
   search?: string;
 }
 
-export const LoadProducts = async (context: GraphQLContext, args: LoadTasksArgs) => {
+export const LoadTasks = async (context: GraphQLContext, args: LoadTasksArgs) => {
   const conditions: any = {};
 
   if (args.search) {

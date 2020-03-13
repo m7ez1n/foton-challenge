@@ -16,7 +16,7 @@ if (!process.env.NOW_REGION) {
 }
 
 // Server
-export const GRAPHQL_PORT = envVar.get('GRAPHQL_PORT').asPortNumber();
+export const GRAPHQL_PORT = envVar.get('PORT').asPortNumber();
 
 // APP_KEY
 export const APP_KEY = process.env.APP_KEY;

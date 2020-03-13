@@ -5,7 +5,9 @@ import { NodeField, NodesField } from '../../interface/NodeInterface';
 
 import { GraphQLContext } from '../../types';
 import * as UserLoader from '../../modules/user/UserLoader';
-import UserType, { UserConnection } from '../../modules/user/UserType';
+import UserType from '../../modules/user/UserType';
+import TaskType, { TaskConnection } from '../../modules/tasks/TaskType';
+import { TaskLoader } from '../../loader';
 
 export default new GraphQLObjectType<any, GraphQLContext, any>({
   name: 'Query',
@@ -15,26 +17,30 @@ export default new GraphQLObjectType<any, GraphQLContext, any>({
     node: NodeField,
     nodes: NodesField,
 
-    /* User */
     user: {
       type: UserType,
-      args: {
-        id: {
-          type: GraphQLNonNull(GraphQLID),
-        },
-      },
-      resolve: async (_, { id }, context) => await UserLoader.load(context, fromGlobalId(id).id),
+      resolve: (obj, args, context) => (context.user ? UserLoader.load(context, context.user._id) : null),
     },
-    users: {
-      type: GraphQLNonNull(UserConnection.connectionType),
+
+    tasks: {
+      type: GraphQLNonNull(TaskConnection.connectionType),
       args: {
         ...connectionArgs,
         search: {
           type: GraphQLString,
         },
       },
-      resolve: async (_, args, context) => await UserLoader.loadEvents(context, args),
+      resolve: async (_, args, context) => await TaskLoader.LoadTasks(context, args),
     },
-    /* User */
+
+    task: {
+      type: TaskType,
+      args: {
+        id: {
+          type: GraphQLNonNull(GraphQLID),
+        },
+      },
+      resolve: async (_, { id }, context) => await TaskLoader.load(context, fromGlobalId(id).id),
+    },
   }),
 });

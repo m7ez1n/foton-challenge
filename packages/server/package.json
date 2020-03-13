@@ -3,6 +3,16 @@
   "version": "0.0.1",
   "license": "MIT",
   "main": "index.js",
+  "scripts": {
+    "build": "yarn clean && babel src --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\" --ignore *.spec.js --out-dir dist --copy-files --source-maps --verbose",
+    "clean": "rm -rf dist",
+    "copy-to-package": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\" scripts/copySchemaToPackage.js",
+    "graphql": "webpack --watch --progress --config webpack.config.js",
+    "start": "node dist/graphql/index.js",
+    "test": "yarn jest",
+    "test:watch": "yarn jest --watch",
+    "update-schema": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\" scripts/updateSchema.js && yarn copy-to-package"
+  },
   "dependencies": {
     "@entria/graphql-mongoose-loader": "^4.3.0",
     "@foton-challenge/babel": "0.0.1",
