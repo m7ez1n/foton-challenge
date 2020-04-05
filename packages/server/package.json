@@ -14,6 +14,10 @@
     "update-schema": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\" scripts/updateSchema.js && yarn copy-to-package"
   },
   "dependencies": {
+    "@babel/plugin-proposal-async-generator-functions": "^7.8.3",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/preset-typescript": "^7.9.0",
     "@entria/graphql-mongoose-loader": "^4.3.0",
     "@foton-challenge/babel": "0.0.1",
     "@koa/router": "^8.0.8",

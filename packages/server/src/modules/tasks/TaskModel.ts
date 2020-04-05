@@ -4,13 +4,10 @@ const Schema = new mongoose.Schema(
   {
     title: {
       type: String,
-      description: 'Task title',
-      index: true,
       required: true,
     },
     description: {
       type: String,
-      description: 'Task description',
       required: true,
     },
   },
@@ -19,7 +16,7 @@ const Schema = new mongoose.Schema(
       createdAt: 'createdAt',
       updatedAt: 'updatedAt',
     },
-    collection: 'Event',
+    collection: 'Task',
   },
 );
 
@@ -32,6 +29,6 @@ export interface ITask extends Document {
   updatedAt: Date;
 }
 
-const TaskModel: Model<ITask> = mongoose.model<ITask, Model<ITask>>('Task', Schema);
+const TaskModel: Model<ITask> = mongoose.model('Task', Schema);
 
 export default TaskModel;

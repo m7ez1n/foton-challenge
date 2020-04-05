@@ -1,9 +1,10 @@
+import { GraphQLString, GraphQLNonNull } from 'graphql';
+
+import { mutationWithClientMutationId } from 'graphql-relay';
+
 import TaskModel from '../TaskModel';
 import * as TaskLoader from '../TaskLoader';
 import TaskType from '../TaskType';
-
-import { GraphQLString, GraphQLNonNull } from 'graphql';
-import { mutationWithClientMutationId } from 'graphql-relay';
 
 export default mutationWithClientMutationId({
   name: 'CreateTask',

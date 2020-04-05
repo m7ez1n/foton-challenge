@@ -8,6 +8,8 @@ import koaLogger from 'koa-logger';
 import multer from 'koa-multer';
 import Router from '@koa/router';
 
+import auth from '../common/auth';
+
 import * as loaders from '../loader';
 
 import { GraphQLContext } from '../types';
@@ -83,6 +85,8 @@ router.all(
         const { dataloaders } = koaContext;
         const { appversion, appbuild, appplatform } = request.header;
 
+        const { user } = await auth(request.header.authorization);
+
         if (process.env.NODE_ENV !== 'test') {
           // eslint-disable-next-line no-console
           console.info('Handling request', {
@@ -100,6 +104,7 @@ router.all(
           },
           context: {
             dataloaders,
+            user,
             appplatform,
             koaContext,
           } as GraphQLContext,

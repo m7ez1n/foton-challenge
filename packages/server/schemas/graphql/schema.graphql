@@ -10,73 +10,60 @@ type CreateTaskPayload {
   clientMutationId: String
 }
 
+input DeleteTaskInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type DeleteTaskPayload {
+  message: String
+  error: String
+  clientMutationId: String
+}
+
 type Mutation {
   UserLoginMutation(input: UserLoginMutationInput!): UserLoginMutationPayload
   UserRegisterMutation(input: UserRegisterMutationInput!): UserRegisterMutationPayload
   CreateTaskMutation(input: CreateTaskInput!): CreateTaskPayload
+  UpdateTaskMutation(input: UpdateTaskInput!): UpdateTaskPayload
+  DeleteTaskMutation(input: DeleteTaskInput!): DeleteTaskPayload
 }
 
-"""
-An object with an ID
-"""
+"""An object with an ID"""
 interface Node {
-  """
-  The id of the object.
-  """
+  """The id of the object."""
   id: ID!
 }
 
-"""
-Information about pagination in a connection.
-"""
+"""Information about pagination in a connection."""
 type PageInfoExtended {
-  """
-  When paginating forwards, are there more items?
-  """
+  """When paginating forwards, are there more items?"""
   hasNextPage: Boolean!
 
-  """
-  When paginating backwards, are there more items?
-  """
+  """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
 
-  """
-  When paginating backwards, the cursor to continue.
-  """
+  """When paginating backwards, the cursor to continue."""
   startCursor: String
 
-  """
-  When paginating forwards, the cursor to continue.
-  """
+  """When paginating forwards, the cursor to continue."""
   endCursor: String
 }
 
-"""
-The root of all... queries
-"""
+"""The root of all... queries"""
 type Query {
-  """
-  The ID of an object
-  """
+  """The ID of an object"""
   id: ID!
 
-  """
-  Fetches an object given its ID
-  """
+  """Fetches an object given its ID"""
   node(
-    """
-    The ID of an object
-    """
+    """The ID of an object"""
     id: ID
   ): Node
 
-  """
-  Fetches objects given their IDs
-  """
+  """Fetches objects given their IDs"""
   nodes(
-    """
-    The IDs of objects
-    """
+    """The IDs of objects"""
     ids: [ID!]!
   ): [Node]!
   user: User
@@ -84,13 +71,9 @@ type Query {
   task(id: ID!): Tasks
 }
 
-"""
-A connection to a list of items.
-"""
+"""A connection to a list of items."""
 type TaskConnection {
-  """
-  Number of items in this connection
-  """
+  """Number of items in this connection"""
   count: Int!
 
   """
@@ -101,49 +84,31 @@ type TaskConnection {
   """
   totalCount: Int!
 
-  """
-  Offset from start
-  """
+  """Offset from start"""
   startCursorOffset: Int!
 
-  """
-  Offset till end
-  """
+  """Offset till end"""
   endCursorOffset: Int!
 
-  """
-  Information to aid in pagination.
-  """
+  """Information to aid in pagination."""
   pageInfo: PageInfoExtended!
 
-  """
-  A list of edges.
-  """
+  """A list of edges."""
   edges: [TaskEdge]!
 }
 
-"""
-An edge in a connection.
-"""
+"""An edge in a connection."""
 type TaskEdge {
-  """
-  The item at the end of the edge
-  """
+  """The item at the end of the edge"""
   node: Tasks!
 
-  """
-  A cursor for use in pagination
-  """
+  """A cursor for use in pagination"""
   cursor: String!
 }
 
-"""
-Task data
-"""
+"""Task data"""
 type Tasks implements Node {
-  """
-  The ID of an object
-  """
+  """The ID of an object"""
   id: ID!
   _id: ID
   title: String
@@ -152,18 +117,25 @@ type Tasks implements Node {
   updatedAt: String
 }
 
-"""
-Represents users
-"""
+input UpdateTaskInput {
+  id: ID!
+  title: String!
+  description: String!
+  clientMutationId: String
+}
+
+type UpdateTaskPayload {
+  task: Tasks
+  error: String
+  clientMutationId: String
+}
+
+"""Represents users"""
 type User implements Node {
-  """
-  The ID of an object
-  """
+  """The ID of an object"""
   id: ID!
 
-  """
-  MongoDB_id
-  """
+  """MongoDB_id"""
   _id: String!
   name: String
   email: String
