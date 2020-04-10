@@ -1,20 +1,28 @@
+import { fromGlobalId } from 'graphql-relay';
+
 import User, * as UserLoader from '../modules/user/UserLoader';
+
+import Task, * as TaskLoader from '../modules/tasks/TaskLoader';
 
 import UserType from '../modules/user/UserType';
 
 import { GraphQLContext } from '../types';
 
-import { nodeDefinitions } from './node';
+import TaskType from '../modules/tasks/TaskType';
 
-import { fromGlobalId } from 'graphql-relay';
+import { nodeDefinitions } from './node';
 
 const { nodeField, nodesField, nodeInterface } = nodeDefinitions(
   // A method that maps from a global id to an object
   async (globalId, context: GraphQLContext) => {
     const { id, type } = fromGlobalId(globalId);
 
-    if (type === 'Event') {
+    if (type === 'User') {
       return UserLoader.load(context, id);
+    }
+
+    if (type === 'Task') {
+      return TaskLoader.load(context, id);
     }
 
     // it should not get here
@@ -22,8 +30,12 @@ const { nodeField, nodesField, nodeInterface } = nodeDefinitions(
   },
   // A method that maps from an object to a type
   obj => {
-    if (obj instanceof Event) {
+    if (obj instanceof User) {
       return UserType;
+    }
+
+    if (obj instanceof Task) {
+      return TaskType;
     }
 
     // it should not get here

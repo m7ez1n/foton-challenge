@@ -1,3 +1,7 @@
+import { GraphQLID, GraphQLNonNull, GraphQLObjectType, GraphQLObjectTypeConfig, GraphQLString } from 'graphql';
+
+import { globalIdField } from 'graphql-relay';
+
 import { NodeInterface } from '../../interface/NodeInterface';
 
 import { connectionDefinitions } from '../../graphql/connection/CustomConnectionType';
@@ -5,10 +9,6 @@ import { connectionDefinitions } from '../../graphql/connection/CustomConnection
 import { GraphQLContext } from '../../types';
 
 import Task from './TaskLoader';
-
-import { GraphQLID, GraphQLNonNull, GraphQLObjectType, GraphQLObjectTypeConfig, GraphQLString } from 'graphql';
-
-import { globalIdField } from 'graphql-relay';
 
 type ConfigType = GraphQLObjectTypeConfig<Task, GraphQLContext>;
 
@@ -45,6 +45,7 @@ const TaskType = new GraphQLObjectType(TaskTypeConfig);
 
 export const TaskConnection = connectionDefinitions({
   name: 'Task',
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   //@ts-ignore
   nodeType: GraphQLNonNull(TaskType),
 });

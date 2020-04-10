@@ -1,4 +1,4 @@
-import { GraphQLString, GraphQLNonNull } from 'graphql';
+import { GraphQLString, GraphQLNonNull, GraphQLID } from 'graphql';
 
 import { mutationWithClientMutationId } from 'graphql-relay';
 
@@ -7,8 +7,11 @@ import * as TaskLoader from '../TaskLoader';
 import TaskType from '../TaskType';
 
 export default mutationWithClientMutationId({
-  name: 'CreateTask',
+  name: 'UpdateTask',
   inputFields: {
+    id: {
+      type: GraphQLNonNull(GraphQLID),
+    },
     title: {
       type: GraphQLNonNull(GraphQLString),
     },
@@ -16,10 +19,22 @@ export default mutationWithClientMutationId({
       type: GraphQLNonNull(GraphQLString),
     },
   },
-  mutateAndGetPayload: async ({ title, description }, { user }) => {
+  mutateAndGetPayload: async ({ id, title, description }, { user }) => {
     if (!user) return { error: 'You should be authenticated' };
 
-    const { id } = await TaskModel.create({ title, description });
+    let task;
+    try {
+      task = await TaskModel.findById(id);
+    } catch (error) {
+      return { error: 'Task does not exists' };
+    }
+
+    if (!task) return { error: 'Task does not exists' };
+
+    task.title = title;
+    task.description = description;
+
+    await task.save();
 
     return { id };
   },
