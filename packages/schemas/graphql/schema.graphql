@@ -1,0 +1,198 @@
+input CreateTaskInput {
+  title: String!
+  description: String!
+  clientMutationId: String
+}
+
+type CreateTaskPayload {
+  task: Tasks
+  error: String
+  clientMutationId: String
+}
+
+type Mutation {
+  UserLoginMutation(input: UserLoginMutationInput!): UserLoginMutationPayload
+  UserRegisterMutation(input: UserRegisterMutationInput!): UserRegisterMutationPayload
+  CreateTaskMutation(input: CreateTaskInput!): CreateTaskPayload
+}
+
+"""
+An object with an ID
+"""
+interface Node {
+  """
+  The id of the object.
+  """
+  id: ID!
+}
+
+"""
+Information about pagination in a connection.
+"""
+type PageInfoExtended {
+  """
+  When paginating forwards, are there more items?
+  """
+  hasNextPage: Boolean!
+
+  """
+  When paginating backwards, are there more items?
+  """
+  hasPreviousPage: Boolean!
+
+  """
+  When paginating backwards, the cursor to continue.
+  """
+  startCursor: String
+
+  """
+  When paginating forwards, the cursor to continue.
+  """
+  endCursor: String
+}
+
+"""
+The root of all... queries
+"""
+type Query {
+  """
+  The ID of an object
+  """
+  id: ID!
+
+  """
+  Fetches an object given its ID
+  """
+  node(
+    """
+    The ID of an object
+    """
+    id: ID
+  ): Node
+
+  """
+  Fetches objects given their IDs
+  """
+  nodes(
+    """
+    The IDs of objects
+    """
+    ids: [ID!]!
+  ): [Node]!
+  user: User
+  tasks(after: String, first: Int, before: String, last: Int, search: String): TaskConnection!
+  task(id: ID!): Tasks
+}
+
+"""
+A connection to a list of items.
+"""
+type TaskConnection {
+  """
+  Number of items in this connection
+  """
+  count: Int!
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+    This allows a client to fetch the first five objects by passing "5" as the
+    argument to "first", then fetch the total count so it could display "5 of 83",
+    for example.
+  """
+  totalCount: Int!
+
+  """
+  Offset from start
+  """
+  startCursorOffset: Int!
+
+  """
+  Offset till end
+  """
+  endCursorOffset: Int!
+
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfoExtended!
+
+  """
+  A list of edges.
+  """
+  edges: [TaskEdge]!
+}
+
+"""
+An edge in a connection.
+"""
+type TaskEdge {
+  """
+  The item at the end of the edge
+  """
+  node: Tasks!
+
+  """
+  A cursor for use in pagination
+  """
+  cursor: String!
+}
+
+"""
+Task data
+"""
+type Tasks implements Node {
+  """
+  The ID of an object
+  """
+  id: ID!
+  _id: ID
+  title: String
+  description: String
+  createdAt: String
+  updatedAt: String
+}
+
+"""
+Represents users
+"""
+type User implements Node {
+  """
+  The ID of an object
+  """
+  id: ID!
+
+  """
+  MongoDB_id
+  """
+  _id: String!
+  name: String
+  email: String
+  password: String
+  createdAt: String
+  updatedAt: String
+}
+
+input UserLoginMutationInput {
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type UserLoginMutationPayload {
+  token: String
+  error: String
+  clientMutationId: String
+}
+
+input UserRegisterMutationInput {
+  name: String!
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type UserRegisterMutationPayload {
+  token: String
+  error: String
+  clientMutationId: String
+}
