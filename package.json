@@ -18,7 +18,9 @@
     "app:start": "yarn workspace @foton-challenge/app start",
     "lint": "eslint --fix --ext .js,.ts,.tsx",
     "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
-    "prettier": "prettier"
+    "prettier": "prettier",
+    "server": "yarn workspace @foton-challenge/server start",
+    "web": "yarn workspace @foton-challenge/web start"
   },
   "lint-staged": {
     "*.yml": [
