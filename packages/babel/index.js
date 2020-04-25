@@ -14,16 +14,8 @@ module.exports = {
     '@babel/preset-typescript',
   ],
   plugins: [
+    'babel-plugin-styled-components',
     'babel-plugin-idx',
-    [
-      'babel-plugin-styled-components',
-      {
-        displayName: false,
-        ssr: false,
-        minify: false,
-        transpileTemplateLiterals: false,
-      },
-    ],
     'relay',
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-proposal-class-properties',
