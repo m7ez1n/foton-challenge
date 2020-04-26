@@ -4,6 +4,7 @@ import 'core-js/stable';
 import ReactDOM from 'react-dom';
 import App from './App';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
+import 'antd/dist/antd.css';
 
 import { Environment } from '@foton-challenge/relay';
 
