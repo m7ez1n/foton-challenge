@@ -1,10 +1,21 @@
 import React from 'react';
 
 import AuthForm from './AuthForm';
-import { MailOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
   const fields = [
+    {
+      name: 'username',
+      placeholder: 'Username',
+      rules: [
+        {
+          required: true,
+          message: 'Please input your username!',
+        },
+      ],
+      icon: <UserOutlined />,
+    },
     {
       name: 'email',
       placeholder: 'Email',
@@ -36,12 +47,12 @@ const SignIn: React.FC = () => {
 
   const link = [
     {
-      to: '/signup',
-      text: 'register now!',
+      to: '/',
+      text: 'login ago!',
     },
   ];
 
-  return <AuthForm fields={fields} returnLink={link} buttonText="Login" />;
+  return <AuthForm fields={fields} returnLink={link} buttonText="Signup" />;
 };
 
-export default SignIn;
+export default SignUp;

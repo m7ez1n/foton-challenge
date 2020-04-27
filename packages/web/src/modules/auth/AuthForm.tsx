@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
 import { Input, Form } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Button } from '../common';
 
 import styled from 'styled-components';
@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import logo from '../../assets/logo@2x.png';
 
 const Container = styled.section`
-  background: linear-gradient(5deg, #4b3bff, #000);
+  background: linear-gradient(180deg, #4b3bba, #000);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,7 +49,26 @@ const FormContainer = styled.article`
   }
 `;
 
-const AuthForm: React.FC = () => {
+interface IFormProps {
+  loading?: boolean;
+  fields: {
+    name: string;
+    placeholder?: string;
+    rules?: {
+      required?: boolean;
+      message?: string;
+    }[];
+    icon?: React.ReactNode;
+    type?: string;
+  }[];
+  returnLink: {
+    to: string;
+    text: string;
+  }[];
+  buttonText: string;
+}
+
+const AuthForm: React.FC<IFormProps> = ({ loading, fields, returnLink, buttonText }) => {
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
   };
@@ -59,22 +78,25 @@ const AuthForm: React.FC = () => {
       <Box>
         <Image src={logo} />
         <FormContainer>
-          <Form name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={onFinish}>
-            <Form.Item name="username" rules={[{ required: true, message: 'Please input your Username!' }]}>
-              <Input size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-            </Form.Item>
-            <Form.Item name="password" rules={[{ required: true, message: 'Please input your Password!' }]}>
-              <Input
-                size="large"
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
-                placeholder="Password"
-              />
-            </Form.Item>
+          <Form name="auth_login" initialValues={{ remember: true }} onFinish={onFinish}>
+            {fields?.map(field => (
+              <Form.Item
+                key={`input_${field.name}`}
+                name={field.name}
+                rules={field?.rules?.map(rule => ({ required: rule?.required, message: rule?.message }))}
+              >
+                <Input size="large" type={field.type} prefix={field.icon} placeholder={field.placeholder} />
+              </Form.Item>
+            ))}
 
             <Form.Item style={{ paddingBottom: 10 }}>
-              <Button>Login</Button>
-              Or <a href="">register now!</a>
+              <Button>{buttonText}</Button>
+              Or{' '}
+              {returnLink?.map(link => (
+                <Link key={`link_for_${link.to}`} to={link.to}>
+                  {link.text}
+                </Link>
+              ))}
             </Form.Item>
           </Form>
         </FormContainer>
@@ -84,6 +106,3 @@ const AuthForm: React.FC = () => {
 };
 
 export default AuthForm;
-
-// TODO componentizar o auth pra todas as páginas de auth
-// seguindo o auth do Jean (https://github.com/jean-leonco/Foton-mono/blob/master/packages/app/src/modules/auth/AuthForm.tsx)
