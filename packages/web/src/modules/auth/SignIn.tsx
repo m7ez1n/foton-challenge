@@ -1,9 +1,38 @@
 import React from 'react';
+import { toast } from 'react-toastify';
+import { useMutation, graphql } from 'relay-hooks';
+import history from '../../routes/history';
+
+import { SignInMutation, SignInMutationResponse } from './__generated__/SignInMutation.graphql';
 
 import AuthForm from './AuthForm';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 
 const SignIn: React.FC = () => {
+  const [mutation, { loading }] = useMutation<SignInMutation>(
+    graphql`
+      mutation SignInMutation($input: UserLoginMutationInput!) {
+        UserLoginMutation(input: $input) {
+          token
+          error
+        }
+      }
+    `,
+    {
+      onCompleted: async ({ UserLoginMutation }: SignInMutationResponse) => {
+        if (UserLoginMutation!.error && !UserLoginMutation!.token) {
+          toast.error(`❌ Registration failed, ${UserLoginMutation!.error}`);
+        } else {
+          localStorage.setItem('token', UserLoginMutation!.token!);
+          history.push('/todo');
+        }
+      },
+      onError: () => {
+        toast.error('❌ Registration failed, network request failed');
+      },
+    },
+  );
+
   const fields = [
     {
       name: 'email',
