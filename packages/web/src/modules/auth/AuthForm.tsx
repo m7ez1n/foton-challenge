@@ -1,7 +1,8 @@
 import React from 'react';
-
+import { FormikProvider, FormikProps } from 'formik';
 import { Link } from 'react-router-dom';
-import { Input, Form } from 'antd';
+import { Form, Input } from 'formik-antd';
+
 import { Button } from '../common';
 
 import styled from 'styled-components';
@@ -54,51 +55,51 @@ interface IFormProps {
   fields: {
     name: string;
     placeholder?: string;
-    rules?: {
-      required?: boolean;
-      message?: string;
-    }[];
     icon?: React.ReactNode;
-    type?: string;
+    typePassword?: boolean;
   }[];
   returnLink: {
     to: string;
     text: string;
   }[];
   buttonText: string;
+  formik: FormikProps<any>;
 }
 
-const AuthForm: React.FC<IFormProps> = ({ loading, fields, returnLink, buttonText }) => {
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-  };
-
+const AuthForm: React.FC<IFormProps> = ({ loading, fields, returnLink, buttonText, formik }) => {
   return (
     <Container>
       <Box>
         <Image src={logo} />
         <FormContainer>
-          <Form name="auth_login" initialValues={{ remember: true }} onFinish={onFinish}>
-            {fields?.map(field => (
-              <Form.Item
-                key={`input_${field.name}`}
-                name={field.name}
-                rules={field?.rules?.map(rule => ({ required: rule?.required, message: rule?.message }))}
-              >
-                <Input size="large" type={field.type} prefix={field.icon} placeholder={field.placeholder} />
-              </Form.Item>
-            ))}
-
-            <Form.Item style={{ paddingBottom: 10 }}>
-              <Button>{buttonText}</Button>
-              Or{' '}
-              {returnLink?.map(link => (
-                <Link key={`link_for_${link.to}`} to={link.to}>
-                  {link.text}
-                </Link>
+          <FormikProvider value={formik}>
+            <Form name="auth_login" initialValues={{ remember: true }}>
+              {fields?.map(field => (
+                <Form.Item key={`input_${field.name}`} name={field.name}>
+                  {field.typePassword ? (
+                    <Input.Password
+                      size="large"
+                      name={field.name}
+                      prefix={field.icon}
+                      placeholder={field.placeholder}
+                    />
+                  ) : (
+                    <Input size="large" name={field.name} prefix={field.icon} placeholder={field.placeholder} />
+                  )}
+                </Form.Item>
               ))}
-            </Form.Item>
-          </Form>
+
+              <Form.Item name="a" style={{ paddingBottom: 10 }}>
+                <Button loading={loading}>{buttonText}</Button>
+                Or{' '}
+                {returnLink?.map(link => (
+                  <Link key={`link_for_${link.to}`} to={link.to}>
+                    {link.text}
+                  </Link>
+                ))}
+              </Form.Item>
+            </Form>
+          </FormikProvider>
         </FormContainer>
       </Box>
     </Container>

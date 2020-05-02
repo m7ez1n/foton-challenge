@@ -6,7 +6,7 @@ import Routes from './routes/index';
 import GlobalStyle from './styles/global';
 import history from './routes/history';
 
-import ScreenLoader from './modules/loading/ScreenLoader';
+import { ScreenLoader } from './modules/common';
 
 const App = () => {
   return (

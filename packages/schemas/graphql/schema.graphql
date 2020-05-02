@@ -10,10 +10,23 @@ type CreateTaskPayload {
   clientMutationId: String
 }
 
+input DeleteTaskInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type DeleteTaskPayload {
+  message: String
+  error: String
+  clientMutationId: String
+}
+
 type Mutation {
   UserLoginMutation(input: UserLoginMutationInput!): UserLoginMutationPayload
   UserRegisterMutation(input: UserRegisterMutationInput!): UserRegisterMutationPayload
   CreateTaskMutation(input: CreateTaskInput!): CreateTaskPayload
+  UpdateTaskMutation(input: UpdateTaskInput!): UpdateTaskPayload
+  DeleteTaskMutation(input: DeleteTaskInput!): DeleteTaskPayload
 }
 
 """
@@ -150,6 +163,19 @@ type Tasks implements Node {
   description: String
   createdAt: String
   updatedAt: String
+}
+
+input UpdateTaskInput {
+  id: ID!
+  title: String!
+  description: String!
+  clientMutationId: String
+}
+
+type UpdateTaskPayload {
+  task: Tasks
+  error: String
+  clientMutationId: String
 }
 
 """
