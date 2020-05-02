@@ -90,7 +90,7 @@ const AuthForm: React.FC<IFormProps> = ({ loading, fields, returnLink, buttonTex
               ))}
 
               <Form.Item name="a" style={{ paddingBottom: 10 }}>
-                <Button>{buttonText}</Button>
+                <Button loading={loading}>{buttonText}</Button>
                 Or{' '}
                 {returnLink?.map(link => (
                   <Link key={`link_for_${link.to}`} to={link.to}>

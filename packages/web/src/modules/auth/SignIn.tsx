@@ -6,35 +6,35 @@ import { useMutation, graphql } from 'relay-hooks';
 
 import history from '../../routes/history';
 
-//import { SignInMutation, SignInMutationResponse } from './__generated__/SignInMutation.graphql';
+import { SignInMutation, SignInMutationResponse } from './__generated__/SignInMutation.graphql';
 
 import AuthForm from './AuthForm';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 
 const SignIn: React.FC = () => {
-  // const [mutation, { loading }] = useMutation<SignInMutation>(
-  //   graphql`
-  //     mutation SignInMutation($input: UserLoginMutationInput!) {
-  //       UserLoginMutation(input: $input) {
-  //         token
-  //         error
-  //       }
-  //     }
-  //   `,
-  //   {
-  //     onCompleted: async ({ UserLoginMutation }: SignInMutationResponse) => {
-  //       if (UserLoginMutation!.error && !UserLoginMutation!.token) {
-  //         toast.error(`❌ Registration failed, ${UserLoginMutation!.error}`);
-  //       } else {
-  //         localStorage.setItem('token', UserLoginMutation!.token!);
-  //         history.push('/todo');
-  //       }
-  //     },
-  //     onError: () => {
-  //       toast.error('❌ Registration failed, network request failed');
-  //     },
-  //   },
-  // );
+  const [mutate, { loading }] = useMutation<SignInMutation>(
+    graphql`
+      mutation SignInMutation($input: UserLoginMutationInput!) {
+        UserLoginMutation(input: $input) {
+          token
+          error
+        }
+      }
+    `,
+    {
+      onCompleted: async ({ UserLoginMutation }: SignInMutationResponse) => {
+        if (UserLoginMutation!.error && !UserLoginMutation!.token) {
+          toast.error(`❌ Registration failed, ${UserLoginMutation!.error}`);
+        } else {
+          localStorage.setItem('token', UserLoginMutation!.token!);
+          history.push('/todo');
+        }
+      },
+      onError: () => {
+        toast.error('❌ Registration failed, network request failed');
+      },
+    },
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -48,7 +48,11 @@ const SignIn: React.FC = () => {
       password: Yup.string().required('Password is required'),
     }),
     onSubmit: input => {
-      console.log(input);
+      mutate({
+        variables: {
+          input,
+        },
+      });
     },
   });
 
@@ -73,7 +77,7 @@ const SignIn: React.FC = () => {
     },
   ];
 
-  return <AuthForm formik={formik} fields={fields} returnLink={link} buttonText="Login" />;
+  return <AuthForm formik={formik} loading={loading} fields={fields} returnLink={link} buttonText="Login" />;
 };
 
 export default SignIn;
