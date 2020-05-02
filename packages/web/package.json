@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.config.js --progress",
-    "relay": "relay-compiler --src ./src --schema ../schemas/graphql/schema.graphql --extensions=ts --extensions=tsx",
+    "relay": "relay-compiler --src ./src --schema ../schemas/graphql/schema.graphql --language typescript",
     "start": "webpack --watch --progress --config webpack.config.js"
   },
   "browserslist": {
@@ -57,7 +57,9 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@types/react-relay": "^7.0.3",
     "@types/react-router-dom": "^5.1.4",
+    "@types/relay-runtime": "^8.0.9",
     "@types/styled-components": "^5.1.0",
     "@types/yup": "^0.28.0",
     "babel-loader": "^8.1.0",

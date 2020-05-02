@@ -20,7 +20,8 @@
     "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
     "prettier": "prettier",
     "server": "yarn workspace @foton-challenge/server start",
-    "web": "yarn workspace @foton-challenge/web start"
+    "web": "yarn workspace @foton-challenge/web start",
+    "relay": "yarn workspace @foton-challenge/web relay"
   },
   "lint-staged": {
     "*.yml": [
