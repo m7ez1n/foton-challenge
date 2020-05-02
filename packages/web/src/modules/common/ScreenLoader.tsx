@@ -2,8 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from './index';
 
 const Container = styled.section`
   background: linear-gradient(180deg, #4b3bba, #000);
@@ -15,11 +14,9 @@ const Container = styled.section`
 `;
 
 const ScreenLoading: React.FC = () => {
-  const antIcon = <LoadingOutlined style={{ fontSize: 500, color: '#FFF' }} spin />;
-
   return (
     <Container>
-      <Spin indicator={antIcon} />
+      <Spin style={{ fontSize: 500, color: '#FFF' }} />
     </Container>
   );
 };

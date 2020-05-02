@@ -1,6 +1,8 @@
 import React from 'react';
+
 import styled from 'styled-components';
 import { darken } from 'polished';
+import { Spin } from '../common';
 
 export const ButtonUI = styled.button<IButtonProps>`
   color: ${({ color }) => color || '#FFF'};
@@ -23,12 +25,13 @@ interface IButtonProps {
   color?: string;
   backgroundColor?: string;
   children?: React.ReactNode | string;
+  loading?: boolean;
 }
 
-const Button: React.FC<IButtonProps> = ({ color, backgroundColor, children }) => {
+const Button: React.FC<IButtonProps> = ({ color, backgroundColor, loading, children }) => {
   return (
     <ButtonUI color={color} backgroundColor={backgroundColor}>
-      {children}
+      {loading ? <Spin style={{ fontSize: 20, color: '#FFF' }} /> : children}
     </ButtonUI>
   );
 };
