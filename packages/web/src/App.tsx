@@ -4,11 +4,12 @@ import { Router } from 'react-router-dom';
 
 import Routes from './routes/index';
 import GlobalStyle from './styles/global';
-import history from './routes/history';
 
 import { ScreenLoader } from './modules/common';
+import { createBrowserHistory } from 'history';
 
 const App = () => {
+  const history = createBrowserHistory();
   return (
     <Router history={history}>
       <React.Suspense fallback={<ScreenLoader />}>

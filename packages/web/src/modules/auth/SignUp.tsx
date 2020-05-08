@@ -3,13 +3,15 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { useMutation, graphql } from 'relay-hooks';
-import history from '../../routes/history';
+import { useHistory } from 'react-router-dom';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
 import { SignUpMutation, SignUpMutationResponse } from './__generated__/SignUpMutation.graphql';
 import AuthForm from './AuthForm';
 
 const SignUp: React.FC = () => {
+  const history = useHistory();
+
   const [mutate, { loading }] = useMutation<SignUpMutation>(
     graphql`
       mutation SignUpMutation($input: UserRegisterMutationInput!) {

@@ -3,8 +3,7 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { useMutation, graphql } from 'relay-hooks';
-
-import history from '../../routes/history';
+import { useHistory } from 'react-router-dom';
 
 import { SignInMutation, SignInMutationResponse } from './__generated__/SignInMutation.graphql';
 
@@ -12,6 +11,8 @@ import AuthForm from './AuthForm';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 
 const SignIn: React.FC = () => {
+  const history = useHistory();
+
   const [mutate, { loading }] = useMutation<SignInMutation>(
     graphql`
       mutation SignInMutation($input: UserLoginMutationInput!) {

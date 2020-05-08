@@ -47,5 +47,3 @@ export default function useMutation(mutation) {
   }, []);
   return [isPending, execute];
 }
-
-// TODO install react-relay@experimental
