@@ -23,6 +23,7 @@
     "extends": "react-app"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.1.0",
     "@babel/core": "^7.9.0",
     "@foton-challenge/relay": "0.0.1",
     "@hot-loader/react-dom": "^16.13.0",
@@ -42,7 +43,6 @@
     "react-error-boundary": "^1.2.5",
     "react-helmet": "^6.0.0",
     "react-hot-loader": "^4.12.20",
-    "react-icons": "^3.10.0",
     "react-relay": "^0.0.0-experimental-8cc94ddc",
     "react-router": "^5.1.2",
     "react-router-config": "^5.1.1",
