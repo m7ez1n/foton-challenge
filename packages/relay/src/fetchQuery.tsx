@@ -21,7 +21,7 @@ const fetchQuery = async (
   const headers = {
     appplatform: PLATFORM.WEB,
     ...getHeaders(uploadables),
-    authorization: token ? `JWT ${token}` : null,
+    authorization: token ? token : null,
   };
 
   try {
