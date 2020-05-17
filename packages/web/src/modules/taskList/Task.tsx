@@ -9,7 +9,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Task_task$key } from './__generated__/Task_task.graphql';
 import { Header } from '../common';
 import { Button } from 'antd';
-import { TaskDrawer } from './Drawer.form';
+import TaskDrawer from './Drawer.form';
 
 interface Props {
   task: Task_task$key;
@@ -17,6 +17,12 @@ interface Props {
 
 const Task: React.FC<Props> = props => {
   const history = useHistory();
+
+  const [open, setOpen] = React.useState<boolean>(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   const task = useFragment<Task_task$key>(
     graphql`
@@ -34,10 +40,10 @@ const Task: React.FC<Props> = props => {
     <div>
       <Header />
       <h1>Alou caraio</h1>
-      <Button type="primary" size="large" icon={<PlusOutlined />}>
+      <Button type="primary" onClick={handleOpen} size="large" icon={<PlusOutlined />}>
         Add new task
       </Button>
-      <TaskDrawer />
+      <TaskDrawer open={open} setOpen={setOpen} />
     </div>
   );
 };
