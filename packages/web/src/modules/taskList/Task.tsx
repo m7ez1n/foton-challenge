@@ -9,7 +9,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Task_task$key } from './__generated__/Task_task.graphql';
 import { Header } from '../common';
 import { Button } from 'antd';
-import TaskDrawer from './Drawer.form';
+import TaskDrawer from '../create/Drawer';
 
 interface Props {
   task: Task_task$key;
