@@ -1,9 +1,9 @@
-import { IUser } from './modules/user/UserModel';
-import { ITask } from './modules/tasks/TaskModel';
-
 import DataLoader from 'dataloader';
 import { Types } from 'mongoose';
 import { Context } from 'koa';
+
+import { ITask } from './modules/tasks/TaskModel';
+import { IUser } from './modules/user/UserModel';
 
 export type DataLoaderKey = Types.ObjectId | string | undefined | null;
 

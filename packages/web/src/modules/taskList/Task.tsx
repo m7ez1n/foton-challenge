@@ -6,10 +6,12 @@ import { formatDistance, parseISO } from 'date-fns';
 import styled from 'styled-components';
 import { PlusOutlined } from '@ant-design/icons';
 
-import { Task_task$key } from './__generated__/Task_task.graphql';
-import { Header } from '../common';
 import { Button } from 'antd';
+
+import { Header } from '../common';
 import TaskDrawer from '../create/Drawer';
+
+import { Task_task$key } from './__generated__/Task_task.graphql';
 
 interface Props {
   task: Task_task$key;

@@ -2,10 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 
-import { schema as schemaGraphql } from '../src/graphql/schema';
-
 import { graphql } from 'graphql';
 import { introspectionQuery, printSchema } from 'graphql/utilities';
+
+import { schema as schemaGraphql } from '../src/graphql/schema';
 
 const writeFileAsync = promisify(fs.writeFile);
 

@@ -3,9 +3,9 @@ import { FormikProvider, FormikProps } from 'formik';
 import { Link } from 'react-router-dom';
 import { Form, Input } from 'formik-antd';
 
-import { Button } from '../common';
-
 import styled from 'styled-components';
+
+import { Button } from '../common';
 
 import logo from '../../assets/logo@2x.png';
 

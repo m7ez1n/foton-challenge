@@ -1,20 +1,20 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePagination, useQuery } from 'relay-hooks';
 import { graphql, useRefetchableFragment } from 'react-relay/hooks';
+
 import Task from './Task';
+
+import { TaskList_query$key } from './__generated__/TaskList_query.graphql';
 
 interface Props {
   query: any;
 }
 
-import { TaskList_query$key } from './__generated__/TaskList_query.graphql';
-
 const TaskList: React.FC<Props> = props => {
-
   const [data, refetch] = useRefetchableFragment<TaskList_query$key, _>(
     graphql`
       fragment TaskList_query on Query
-      @argumentDefinitions(first: { type: "Int!", defaultValue: 10 }, search: { type: String }) {
+        @argumentDefinitions(first: { type: "Int!", defaultValue: 10 }, search: { type: String }) {
         tasks(first: $first, after: $cursor, search: $search) @connection(key: "TaskList_tasks", filters: []) {
           pageInfo {
             hasNextPage

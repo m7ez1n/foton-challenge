@@ -6,9 +6,9 @@ import { useFormik } from 'formik';
 
 import { Drawer } from 'antd';
 
-import CreateForm from './CreateForm';
-
 import task from '../../assets/task.svg';
+
+import CreateForm from './CreateForm';
 
 import { DrawerFormMutation, DrawerFormMutationResponse } from './__generated__/DrawerFormMutation.graphql';
 

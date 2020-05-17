@@ -1,11 +1,11 @@
-import { DataLoaderKey, GraphQLContext } from '../../types';
-
-import UserModel, { IUser } from './UserModel';
-
 import { mongooseLoader } from '@entria/graphql-mongoose-loader';
 
 import DataLoader from 'dataloader';
 import { Types } from 'mongoose';
+
+import { DataLoaderKey, GraphQLContext } from '../../types';
+
+import UserModel, { IUser } from './UserModel';
 
 export default class User {
   id: string;

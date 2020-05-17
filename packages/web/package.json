@@ -19,9 +19,6 @@
       "last 1 safari version"
     ]
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "dependencies": {
     "@ant-design/icons": "^4.1.0",
     "@babel/core": "^7.9.0",
