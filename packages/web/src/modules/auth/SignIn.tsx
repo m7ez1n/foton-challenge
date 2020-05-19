@@ -5,10 +5,11 @@ import { useFormik } from 'formik';
 import { useMutation, graphql } from 'relay-hooks';
 import { useHistory } from 'react-router-dom';
 
+import { MailOutlined, LockOutlined } from '@ant-design/icons';
+
 import { SignInMutation, SignInMutationResponse } from './__generated__/SignInMutation.graphql';
 
 import AuthForm from './AuthForm';
-import { MailOutlined, LockOutlined } from '@ant-design/icons';
 
 const SignIn: React.FC = () => {
   const history = useHistory();

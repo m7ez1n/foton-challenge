@@ -1,6 +1,6 @@
-import { MONGO_URL } from './config';
-
 import mongoose from 'mongoose';
+
+import { MONGO_URL } from './config';
 
 declare module 'mongoose' {
   interface ConnectionBase {

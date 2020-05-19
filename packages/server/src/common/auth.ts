@@ -1,10 +1,10 @@
 import { promisify } from 'util';
 
+import jwt from 'jsonwebtoken';
+
 import UserModel from '../modules/user/UserModel';
 
 import { APP_KEY } from './config';
-
-import jwt from 'jsonwebtoken';
 
 export const authConfig = {
   secret: APP_KEY,

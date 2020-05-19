@@ -2,7 +2,9 @@ import React from 'react';
 import 'regenerator-runtime/runtime';
 import 'core-js/stable';
 import ReactDOM from 'react-dom';
+
 import App from './App';
+
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { ToastContainer } from 'react-toastify';
 import 'antd/dist/antd.css';

@@ -3,9 +3,9 @@ import { FormikProvider, FormikProps } from 'formik';
 import { Link } from 'react-router-dom';
 import { Form, Input } from 'formik-antd';
 
-import { Button } from '../common';
-
 import styled from 'styled-components';
+
+import { Button } from '../common';
 
 import logo from '../../assets/logo@2x.png';
 
@@ -89,7 +89,7 @@ const AuthForm: React.FC<IFormProps> = ({ loading, fields, returnLink, buttonTex
                 </Form.Item>
               ))}
 
-              <Form.Item name="a" style={{ paddingBottom: 10 }}>
+              <Form.Item name="formButtons" style={{ paddingBottom: 10 }}>
                 <Button loading={loading}>{buttonText}</Button>
                 Or{' '}
                 {returnLink?.map(link => (

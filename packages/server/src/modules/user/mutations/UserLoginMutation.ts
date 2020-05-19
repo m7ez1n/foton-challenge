@@ -1,9 +1,10 @@
+import { GraphQLString, GraphQLNonNull } from 'graphql';
+
+import { mutationWithClientMutationId } from 'graphql-relay';
+
 import UserModel from '../UserModel';
 
 import { generateToken } from '../../../common/auth';
-
-import { GraphQLString, GraphQLNonNull } from 'graphql';
-import { mutationWithClientMutationId } from 'graphql-relay';
 
 export default mutationWithClientMutationId({
   name: 'UserLoginMutation',

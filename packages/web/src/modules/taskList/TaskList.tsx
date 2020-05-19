@@ -1,23 +1,21 @@
-import React, { useState, useEffect} from 'react';
-import { graphql, usePagination, useQuery } from 'relay-hooks';
+import React, { useState, useEffect } from 'react';
+import { usePagination, useQuery } from 'relay-hooks';
+import { graphql, useRefetchableFragment } from 'react-relay/hooks';
+
 import Task from './Task';
+
+import { TaskList_query$key } from './__generated__/TaskList_query.graphql';
 
 interface Props {
   query: any;
 }
 
 const TaskList: React.FC<Props> = props => {
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-
-  const [query, { isLoading, hasMore, loadMore, refetchConnection }] = usePagination<TaskList_query$key>(
+  const [data, refetch] = useRefetchableFragment<TaskList_query$key, _>(
     graphql`
       fragment TaskList_query on Query
-        @argumentDefinitions(
-          first: { type: "Int!", defaultValue: 10 }
-          cursor: { type: String }
-          search: { type: String }
-        ) {
-        tasks(first: $first, after: $cursor, search: $search) @connection(key: "TaskList_tasks") {
+        @argumentDefinitions(first: { type: "Int!", defaultValue: 10 }, search: { type: String }) {
+        tasks(first: $first, after: $cursor, search: $search) @connection(key: "TaskList_tasks", filters: []) {
           pageInfo {
             hasNextPage
             endCursor
@@ -25,7 +23,8 @@ const TaskList: React.FC<Props> = props => {
           edges {
             node {
               id
-              ...Task_task
+              title
+              description
             }
           }
         }
@@ -34,15 +33,9 @@ const TaskList: React.FC<Props> = props => {
     props.query,
   );
 
-  const refetchQuery = graphql`
-    query TaskListPaginationQuery($first: Int!, $cursor: String, $search: String) {
-      ...TaskList_query @arguments(first: $first, cursor: $cursor, search: $search)
-    }
-  `;
-  
   return (
     <div>
-      <h1>Dashboard</h1>
+      <h1>{props.query.title}</h1>
     </div>
   );
 };
