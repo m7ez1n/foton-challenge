@@ -38,7 +38,7 @@ const CreateForm: React.FC<Props> = ({ loading, fields, formik, handleClose }) =
     <FormikProvider value={formik}>
       <Form name="create_task">
         {fields.map(field => (
-          <Form.Item name={field.name} label={field.label}>
+          <Form.Item key={`key_form_item_${field.name}`} name={field.name} label={field.label}>
             {field.isTextArea ? (
               <Input.TextArea name={field.name} placeholder={field.placeholder} rows={5} />
             ) : (
