@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import { useMutation, graphql } from 'relay-hooks';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
+import { useHistory } from 'react-router-dom';
 
 import { Drawer } from 'antd';
 
@@ -18,6 +19,8 @@ interface Props {
 }
 
 const TaskDrawer: React.FC<Props> = ({ open, setOpen }) => {
+  const history = useHistory();
+
   const [mutate, { loading }] = useMutation<DrawerFormMutation>(
     graphql`
       mutation DrawerFormMutation($input: CreateTaskInput!) {
@@ -37,7 +40,7 @@ const TaskDrawer: React.FC<Props> = ({ open, setOpen }) => {
         if (CreateTaskMutation && CreateTaskMutation.error && !CreateTaskMutation.task) {
           toast.error(`❌ Creation task failed, ${CreateTaskMutation!.error}`);
         } else {
-          console.log('sla qq to fznd mano', CreateTaskMutation?.task!.id);
+          history.push('/nsei');
         }
       },
       onError: () => {
