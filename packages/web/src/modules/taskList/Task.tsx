@@ -1,33 +1,21 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useFragment, graphql } from 'relay-hooks';
-import { formatDistance, parseISO } from 'date-fns';
-import styled from 'styled-components';
+import { usePaginationFragment, graphql } from 'react-relay/hooks';
 
-import { Button, Card, Row, Col } from 'antd';
+import { Button, Row, Col } from 'antd';
 
 import { PlusOutlined } from '@ant-design/icons';
 
 import { Header } from '../common';
 import TaskDrawer from '../create/Drawer';
 
+import TaskListItem from './TaskListItem';
+
 import { Task_task$key } from './__generated__/Task_task.graphql';
 
 interface Props {
   task: Task_task$key;
 }
-
-const CardStyle = styled(Card)`
-  width: 300px;
-`;
-
-const CardContent = styled.p`
-  color: #666666;
-`;
-
-const CardSpan = styled.span`
-  color: #ee4d64;
-`;
 
 const Task: React.FC<Props> = props => {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -37,37 +25,41 @@ const Task: React.FC<Props> = props => {
     setOpen(true);
   };
 
-  const task = useFragment<Task_task$key>(
+  const { data, loadNext, isLoadingNext } = usePaginationFragment(
     graphql`
-      fragment Task_task on Tasks {
-        id
-        title
-        description
-        createdAt
+      fragment Task_task on Tasks
+        @argumentDefinitions(cursor: { type: "String" }, count: { type: "Int", defaultValue: 10 })
+        @refetchable(queryName: "TaskPaginationQuery") {
+        tasks(after: $cursor, first: $count) @connection(key: "Tasks_tasks") {
+          edges {
+            __id
+            node {
+              ...TaskListItem_task
+            }
+          }
+        }
       }
     `,
     props.task,
   );
 
-  const formatDate = React.useMemo(() => formatDistance(parseISO(task.createdAt!), new Date()), [task.createdAt]);
+  const loadMore = useCallback(() => {
+    if (isLoadingNext) return;
+
+    loadNext(10);
+  }, [isLoadingNext, loadNext]);
 
   return (
     <>
       <Header />
       <div>
-        <h1>Alou caraio</h1>
         <Button type="primary" onClick={handleOpen} size="large" icon={<PlusOutlined />}>
           Add new task
         </Button>
         <TaskDrawer open={open} setOpen={setOpen} />
 
         <Row gutter={[8, 32]}>
-          <Col span={6}>
-            <CardStyle title={task.title}>
-              <CardContent>{task.description}</CardContent>
-              <CardSpan>{formatDate}</CardSpan>
-            </CardStyle>
-          </Col>
+          <Col span={6}></Col>
         </Row>
       </div>
     </>
