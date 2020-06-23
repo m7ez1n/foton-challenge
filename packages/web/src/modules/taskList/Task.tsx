@@ -1,6 +1,8 @@
+/* eslint-disable import/no-unresolved */
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { usePaginationFragment, graphql } from 'react-relay/hooks';
+import { usePaginationFragment, graphql, usePreloadedQuery } from 'react-relay/hooks';
+import { PreloadedQuery } from 'react-relay/lib/relay-experimental/EntryPointTypes';
 
 import { Button, Row, Col } from 'antd';
 
@@ -11,10 +13,12 @@ import TaskDrawer from '../create/Drawer';
 
 import TaskListItem from './TaskListItem';
 
-import { Task_task$key } from './__generated__/Task_task.graphql';
+import { TaskQuery } from './__generated__/TaskQuery.graphql';
 
 interface Props {
-  task: Task_task$key;
+  prepared: {
+    taskQuery: PreloadedQuery<TaskQuery>;
+  };
 }
 
 const Task: React.FC<Props> = props => {
@@ -25,29 +29,14 @@ const Task: React.FC<Props> = props => {
     setOpen(true);
   };
 
-  const { data, loadNext, isLoadingNext } = usePaginationFragment(
+  const data = usePreloadedQuery(
     graphql`
-      fragment Task_task on Tasks
-        @argumentDefinitions(cursor: { type: "String" }, count: { type: "Int", defaultValue: 10 })
-        @refetchable(queryName: "TaskPaginationQuery") {
-        tasks(after: $cursor, first: $count) @connection(key: "Tasks_tasks") {
-          edges {
-            __id
-            node {
-              ...TaskListItem_task
-            }
-          }
-        }
+      query TaskQuery {
+        ...TaskListItem_task
       }
     `,
-    props.task,
+    props.prepared.taskQuery,
   );
-
-  const loadMore = useCallback(() => {
-    if (isLoadingNext) return;
-
-    loadNext(10);
-  }, [isLoadingNext, loadNext]);
 
   return (
     <>

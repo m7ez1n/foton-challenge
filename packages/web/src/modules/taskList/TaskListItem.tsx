@@ -24,11 +24,17 @@ const CardSpan = styled.span`
 const TaskListItem: React.FC<Props> = props => {
   const task = useFragment(
     graphql`
-      fragment TaskListItem_task on Tasks {
-        id
-        title
-        description
-        createdAt
+      fragment TaskListItem_task on Query {
+        tasks {
+          edges {
+            node {
+              id
+              title
+              description
+              createdAt
+            }
+          }
+        }
       }
     `,
     props.tasksItem,
