@@ -22,7 +22,7 @@
     "formik": "^2.1.4",
     "graphql": "^14.6.0",
     "react": "^16.13.1",
-    "react-native": "0.62.0",
+    "react-native": "0.62.3",
     "react-native-flash-message": "^0.1.15",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-reanimated": "^1.7.1",
